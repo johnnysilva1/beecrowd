@@ -1,0 +1,59 @@
+#include <stdio.h>
+
+int procura(int ent, int * arr, int tam){
+	
+	for(int i = 0; i < tam; i++){
+		if(ent == arr[i])
+			return 0;
+	}
+
+	return 1;
+}
+
+int main(){
+	inicio:;
+
+	int nCartasA, nCartasB, i, aEMb = 0, bEMa = 0, ptBusc = 0, tamBusc = 0;
+
+	scanf("%d %d", &nCartasA, &nCartasB);
+
+	if(nCartasA == 0 && nCartasB == 0)
+		return 0;
+
+	int aCA[nCartasA];
+	int aCB[nCartasB];
+	int buscadas[nCartasA + nCartasB] = {0};
+
+	for(i = 0; i < nCartasA; i++)
+		scanf("%d", &aCA[i]);
+
+	for(i = 0; i < nCartasB; i++)
+		scanf("%d", &aCB[i]);
+
+	for(i = 0; i < nCartasA; i++){
+		if(procura(aCA[i], buscadas, tamBusc)){
+			buscadas[ptBusc] = aCA[i];
+			ptBusc++;
+			tamBusc++;
+
+			aEMb += procura(aCA[i], aCB, nCartasB);
+		}
+	}
+
+	tamBusc = 0;
+	ptBusc = 0;	
+
+	for(i = 0; i < nCartasB; i++){
+		if(procura(aCB[i], buscadas, tamBusc)){
+			buscadas[ptBusc] = aCB[i];
+			ptBusc++;
+			tamBusc++;
+
+			bEMa += procura(aCB[i], aCA, nCartasA);
+		}
+	}
+
+	aEMb > bEMa ? printf("%d\n", bEMa) : printf("%d\n", aEMb);
+
+	goto inicio;
+}
