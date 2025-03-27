@@ -26,34 +26,24 @@ int main(void){
 		printf("%d/%d = %d/%d\n", orig.numerador, orig.denominador, simplif.numerador, simplif.denominador);
 	}
 
-	//printf("%d / %d %c %d / %d\n", a, b, op, c, d);
 	return 0;
 }
 
 
 Fracao retornaValores(int a, int b, int c, int d, char op){
+	//Tive que seguir o método definido no problema
 	int nume=0, deno=0;
 	
 	switch(op){
 		case '+':
-			if(b != d){
-				deno = b*d;
-				nume = d*a+b*c;
-			}else{
-				deno = b;
-				nume = a+c;
-			}
+			deno = b*d;
+			nume = d*a+b*c;
 			break;
 
 		case '-':
-			if(b != d){
-				deno = b*d;
-				nume = d*a-b*c;
-			}else{
-				deno = b;
-				nume = a-c;
-			}
-			break;	
+			deno = b*d;
+			nume = d*a-b*c;
+			break;
 
 		case '*':
 			deno = b*d;
@@ -61,7 +51,7 @@ Fracao retornaValores(int a, int b, int c, int d, char op){
 			break;
 		
 		case '/':
-			deno = b*c;
+			deno = c*b;
 			nume = a*d;
 			break;
 	}
@@ -70,10 +60,15 @@ Fracao retornaValores(int a, int b, int c, int d, char op){
 	return fracao;
 }
 
-Fracao simplifica(const Fracao fracao){
+Fracao simplifica(const Fracao fracao){ 
+	//Usei o seguinte método
+	//https://en.wikipedia.org/wiki/Greatest_common_divisor
+	//Binary GCD algorithm, variante do algoritmo Euclidiano para encontar o Máximo Divisor Comum
+
 	int num = abs(fracao.numerador), den = abs(fracao.denominador), d = 0;
 	Fracao simplificada;
-	printf("%d %d\n", num, den);
+	
+	
 	for(;num % 2 == 0 && den % 2 == 0; d++){
 		num /= 2; 
 		den /=2;
@@ -85,7 +80,6 @@ Fracao simplifica(const Fracao fracao){
 	for(;den % 2 == 0;)
 		den /= 2;
 
-	//11673 7161
 	while(num != den){
 		if(num > den){
 		
